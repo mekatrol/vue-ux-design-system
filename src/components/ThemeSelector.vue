@@ -18,6 +18,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
+import { useLocalStorageString } from '@/composables';
 import {
   THEME_ATTRIBUTE,
   THEME_OPTIONS,
@@ -31,6 +32,8 @@ const THEME_CHOICES: ReadonlyArray<{ label: string; value: Theme }> = [
   { label: 'Dark', value: THEME_OPTIONS.dark }
 ];
 
+const savedTheme = useLocalStorageString(THEME_STORAGE_KEY);
+
 const setTheme = (): void => {
   applyTheme(theme.value);
   saveTheme(theme.value);
@@ -39,16 +42,12 @@ const setTheme = (): void => {
 const getInitialTheme = (): Theme => getSavedTheme() ?? getPreferredTheme();
 
 const getSavedTheme = (): Theme | null => {
-  try {
-    const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
-    return savedTheme === THEME_OPTIONS.dark ||
-      savedTheme === THEME_OPTIONS.light ||
-      savedTheme === THEME_OPTIONS.system
-      ? savedTheme
-      : null;
-  } catch {
-    return null;
-  }
+  const storedTheme = savedTheme.value;
+  return storedTheme === THEME_OPTIONS.dark ||
+    storedTheme === THEME_OPTIONS.light ||
+    storedTheme === THEME_OPTIONS.system
+    ? storedTheme
+    : null;
 };
 
 const getPreferredTheme = (): Theme => THEME_OPTIONS.system;
@@ -63,11 +62,7 @@ const applyTheme = (nextTheme: Theme): void => {
 };
 
 const saveTheme = (nextTheme: Theme): void => {
-  try {
-    window.localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
-  } catch {
-    // Theme still applies for the current session when storage is unavailable.
-  }
+  savedTheme.value = nextTheme;
 };
 
 const theme = ref<Theme>(getInitialTheme());
