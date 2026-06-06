@@ -24,10 +24,11 @@ describe('App', () => {
     window.localStorage.clear();
   });
 
-  it('mounts renders properly', async () => {
+  it('renders the form workspace', async () => {
     const wrapper = await mountApp();
-    expect(wrapper.text()).toContain('App Header');
-    expect(wrapper.text()).toContain('App Content');
+    expect(wrapper.text()).toContain('App Forms');
+    expect(wrapper.text()).toContain('Application');
+    expect(wrapper.text()).toContain('Mark ready for review');
   });
 
   it('selects and saves a theme override', async () => {
