@@ -17,28 +17,33 @@ describe('App', () => {
 
   it('selects and saves a theme override', async () => {
     const wrapper = mount(App);
-    const themeSelect = wrapper.get('select');
+    const systemTheme = wrapper.get('input[value="system"]');
+    const darkTheme = wrapper.get('input[value="dark"]');
 
-    expect(themeSelect.element.value).toBe(THEME_OPTIONS.system);
+    expect((systemTheme.element as HTMLInputElement).checked).toBe(true);
     expect(document.documentElement.hasAttribute(THEME_ATTRIBUTE)).toBe(false);
 
-    await themeSelect.setValue(THEME_OPTIONS.dark);
+    await darkTheme.setValue(true);
 
     expect(document.documentElement.dataset.theme).toBe(THEME_OPTIONS.dark);
     expect(window.localStorage.getItem(THEME_STORAGE_KEY)).toBe(THEME_OPTIONS.dark);
+    expect((darkTheme.element as HTMLInputElement).checked).toBe(true);
   });
 
   it('clears the theme override when system is selected', async () => {
     window.localStorage.setItem(THEME_STORAGE_KEY, THEME_OPTIONS.light);
 
     const wrapper = mount(App);
-    const themeSelect = wrapper.get('select');
+    const lightTheme = wrapper.get('input[value="light"]');
+    const systemTheme = wrapper.get('input[value="system"]');
 
     expect(document.documentElement.dataset.theme).toBe(THEME_OPTIONS.light);
+    expect((lightTheme.element as HTMLInputElement).checked).toBe(true);
 
-    await themeSelect.setValue(THEME_OPTIONS.system);
+    await systemTheme.setValue(true);
 
     expect(document.documentElement.hasAttribute(THEME_ATTRIBUTE)).toBe(false);
     expect(window.localStorage.getItem(THEME_STORAGE_KEY)).toBe(THEME_OPTIONS.system);
+    expect((systemTheme.element as HTMLInputElement).checked).toBe(true);
   });
 });
