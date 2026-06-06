@@ -80,10 +80,99 @@ Global CSS is imported from `src/main.ts`.
 
 CSS decisions should prefer Kevin Powell's guidance where it applies, especially
 for resets, layout, responsive behavior, and modern CSS defaults. Use
-https://www.kevinpowell.co/ as the overall CSS reference.
+[Kevin Powell](https://www.kevinpowell.co/) and
+[The Cascade](https://thecascade.dev/) as the overall CSS learning references.
 
 The project reset is in `assets/css/reset.css` and is based on Kevin Powell's
 modern reset guidance.
+
+### Class Naming Methodology
+
+Use a hybrid naming approach that blends structural [BEM][bem-naming] with
+utility-first ideas from [CUBE CSS][cube-block]. The goal is readable CSS where
+each class name communicates its job: component structure, layout,
+single-purpose utility, state, or JavaScript behavior.
+
+This project uses the two-dash BEM modifier style documented by the BEM
+community:
+
+```css
+.card {}
+.card__title {}
+.card__title--featured {}
+```
+
+Use BEM for reusable, isolated components:
+
+- Blocks are standalone components, such as `.card`, `.app-header`, or
+  `.primary-sidebar`.
+- Elements are parts of a block and use `__`, such as `.card__title` or
+  `.app-header__nav`.
+- Modifiers are variations of a block or element and use `--`, such as
+  `.card--compact` or `.card__title--featured`.
+- Keep element names flat. Do not create chained element hierarchies such as
+  `.card__body__title`; use `.card__body` and `.card__title` instead.
+- Avoid tag and ID selectors for component styling. BEM's quick-start guidance
+  explicitly recommends class-based blocks and warns against tag or ID selectors
+  in BEM CSS.
+
+Use prefixed utilities for single-purpose styling that should not become part of
+a component API:
+
+```css
+.u-flex {}
+.u-mb-lg {}
+.u-text-muted {}
+```
+
+Utilities should stay small, predictable, and generic. Use them for spacing,
+alignment, display helpers, and small text treatments when creating another BEM
+modifier would add noise. CUBE CSS treats utility and composition layers as
+first-class parts of the system, with block styles kept lighter because common
+work is handled by global, composition, and utility layers.
+
+Use layout classes for macro-layout rules:
+
+```css
+.l-container {}
+.l-grid {}
+.l-sidebar-layout {}
+```
+
+Layout classes own page and region structure: containers, grids, stacks,
+sidebars, gutters, and shell-level alignment. Do not use them for component skin
+or one-off visual tweaks. A component should be able to move between layouts
+without dragging page structure into its own class names.
+
+Use state and JavaScript hook classes only for behavior:
+
+```css
+.is-active {}
+.is-open {}
+.js-nav-toggle {}
+```
+
+State classes such as `.is-active` or `.is-open` describe temporary UI state.
+JavaScript hook classes such as `.js-nav-toggle` exist so scripts can find
+elements without depending on styling classes. Do not put visual rules directly
+on `.js-*` selectors; pair them with BEM or state classes when styling is needed.
+
+Prefer modern CSS features over highly specific naming schemes. Use
+[CSS custom properties][mdn-custom-properties] for tokens and reusable values,
+and use modern layout features such as [flexbox][mdn-flexbox] and
+[grid][mdn-grid] before adding extra wrapper classes or deeply nested selectors.
+
+Consistency matters more than strict adherence to any single methodology. If a
+class represents component structure, use BEM. If it represents reusable layout,
+use `l-`. If it represents a small single-purpose helper, use `u-`. If it exists
+for behavior, use `js-`. Keep those roles separate so CSS remains easy to scan,
+move, and delete.
+
+[bem-naming]: https://bem.info/en/methodology/naming-convention/
+[cube-block]: https://cube.fyi/block.html
+[mdn-custom-properties]: https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Cascading_variables/Using_custom_properties
+[mdn-flexbox]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout
+[mdn-grid]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout
 
 ## Project Setup
 
