@@ -1,35 +1,82 @@
 # vue-ux-design-system
 
-This template should help get you started developing with Vue 3 in Vite.
+Vue 3 design system playground for testing application shell layouts, shared
+tokens, and responsive component patterns.
 
-## Recommended IDE Setup
+## Components And Layout
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+The shell is composed with `ViewLayout` in `src/components/ViewLayout.vue`.
+It exposes slots for the major application regions:
 
-## Recommended Browser Setup
+- `header`: full-width top row
+- `primary-sidebar`: sticky left navigation column on desktop
+- default slot: main page content
+- `secondary-sidebar`: sticky right navigation column on desktop
+- `footer`: full-width sticky bottom footer
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+`src/App.vue` shows the intended usage:
 
-## Type Support for `.vue` Imports in TS
+```vue
+<ViewLayout>
+  <template #header>
+    <AppHeader />
+  </template>
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+  <template #primary-sidebar>
+    <PrimarySidebar />
+  </template>
 
-## Customize configuration
+  <p>App Content</p>
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+  <template #secondary-sidebar>
+    <SecondarySidebar />
+  </template>
 
-## Project Setup
-
-```sh
-npm install
+  <template #footer>
+    <AppFooter />
+  </template>
+</ViewLayout>
 ```
 
-## CSS Reference
+### Header
+
+`AppHeader` renders the header content. Layout styling belongs in
+`assets/css/header.css`, not in the Vue component.
+
+The header is a full-width flex row at the top of the page. Use it for product
+title, global navigation, search, account controls, or other app-wide actions.
+
+### Sidebars
+
+`PrimarySidebar` is for the main navigation and appears as a sticky vertical
+column on the left side of desktop layouts.
+
+`SecondarySidebar` is for contextual navigation, filters, page tools, or related
+content and appears as a sticky vertical column on the right side of desktop
+layouts.
+
+Sidebar layout styling belongs in `assets/css/sidebar.css`. On smaller screens,
+the sidebars become full-width horizontal rows so the main content is not
+compressed.
+
+### Footer
+
+`AppFooter` renders the footer content. Layout styling belongs in
+`assets/css/footer.css`.
+
+The footer is full width and sticky to the bottom of the viewport. Use it for
+supporting page content, secondary actions, or persistent low-priority controls.
+
+## CSS Structure
+
+Global CSS is imported from `src/main.ts`.
+
+- `assets/css/reset.css`: modern reset
+- `assets/css/themes.css`: color, typography, and theme tokens
+- `assets/css/site.css`: global layout primitives and app shell sizing
+- `assets/css/header.css`: header region styles
+- `assets/css/sidebar.css`: primary and secondary sidebar styles
+- `assets/css/footer.css`: footer styles
 
 CSS decisions should prefer Kevin Powell's guidance where it applies, especially
 for resets, layout, responsive behavior, and modern CSS defaults. Use
@@ -37,6 +84,24 @@ https://www.kevinpowell.co/ as the overall CSS reference.
 
 The project reset is in `assets/css/reset.css` and is based on Kevin Powell's
 modern reset guidance.
+
+## Project Setup
+
+```sh
+npm install
+```
+
+## Development
+
+### Recommended IDE Setup
+
+[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+
+### Type Support for `.vue` Imports in TS
+
+TypeScript cannot handle type information for `.vue` imports by default, so the
+project uses `vue-tsc` for type checking. In editors, use Volar so the
+TypeScript language service understands `.vue` files.
 
 ### Compile and Hot-Reload for Development
 
