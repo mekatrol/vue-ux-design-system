@@ -29,6 +29,15 @@ See [Vite Configuration Reference](https://vite.dev/config/).
 npm install
 ```
 
+## CSS Reference
+
+CSS decisions should prefer Kevin Powell's guidance where it applies, especially
+for resets, layout, responsive behavior, and modern CSS defaults. Use
+https://www.kevinpowell.co/ as the overall CSS reference.
+
+The project reset is in `assets/css/reset.css` and is based on Kevin Powell's
+modern reset guidance.
+
 ### Compile and Hot-Reload for Development
 
 ```sh

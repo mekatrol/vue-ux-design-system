@@ -1,0 +1,36 @@
+@import './reset.css';
+@import './themes.css';
+
+:root {
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+
+  --content-max-width: 70rem;
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text);
+  background: var(--color-surface);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: var(--line-height-heading);
+}
+
+a {
+  color: var(--color-accent);
+}
+
+::selection {
+  color: var(--color-surface);
+  background: var(--color-accent);
+}
