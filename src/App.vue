@@ -1,30 +1,30 @@
 <template>
   <ViewLayout>
     <template #header>
-      <h1>View Layout</h1>
+      <AppHeader />
     </template>
 
     <template #primary-sidebar>
-      <nav aria-label="Primary navigation">
-        <a href="/">Home</a>
-      </nav>
+      <PrimarySidebar />
     </template>
 
-    <p>Content</p>
+    <p>App Content</p>
 
     <template #secondary-sidebar>
-      <nav aria-label="Secondary navigation">
-        <a href="/">Details</a>
-      </nav>
+      <SecondarySidebar />
     </template>
 
     <template #footer>
-      <p>Footer</p>
+      <AppFooter />
     </template>
   </ViewLayout>
 </template>
 
 <script setup lang="ts">
+import AppFooter from './components/AppFooter.vue';
+import AppHeader from './components/AppHeader.vue';
+import PrimarySidebar from './components/PrimarySidebar.vue';
+import SecondarySidebar from './components/SecondarySidebar.vue';
 import ViewLayout from './components/ViewLayout.vue';
 </script>
 
