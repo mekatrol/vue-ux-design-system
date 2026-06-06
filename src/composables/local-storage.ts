@@ -106,10 +106,8 @@ export const useLocalStorageString = (key: string): LocalStorageValue<string> =>
   createLocalStorageValue(key, (storedValue: string): string => storedValue, String);
 
 export const useLocalStorageBoolean = (key: string): LocalStorageValue<boolean> =>
-  createLocalStorageValue(
-    key,
-    readBoolean,
-    (value: boolean): string => (value ? TRUE_STORAGE_VALUE : FALSE_STORAGE_VALUE)
+  createLocalStorageValue(key, readBoolean, (value: boolean): string =>
+    value ? TRUE_STORAGE_VALUE : FALSE_STORAGE_VALUE
   );
 
 export const useLocalStorageInteger = (key: string): LocalStorageValue<number> =>

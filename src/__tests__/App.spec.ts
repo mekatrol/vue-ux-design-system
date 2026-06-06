@@ -1,8 +1,22 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { mount } from '@vue/test-utils';
+import { mount, type VueWrapper } from '@vue/test-utils';
+import { createMemoryHistory } from 'vue-router';
 import App from '../App.vue';
 import { THEME_ATTRIBUTE, THEME_OPTIONS, THEME_STORAGE_KEY } from '@/constants/theme.constants';
+import { createAppRouter } from '@/router';
+
+const mountApp = async (): Promise<VueWrapper> => {
+  const router = createAppRouter(createMemoryHistory());
+  router.push('/');
+  await router.isReady();
+
+  return mount(App, {
+    global: {
+      plugins: [router]
+    }
+  });
+};
 
 describe('App', () => {
   beforeEach(() => {
@@ -10,13 +24,14 @@ describe('App', () => {
     window.localStorage.clear();
   });
 
-  it('mounts renders properly', () => {
-    const wrapper = mount(App);
+  it('mounts renders properly', async () => {
+    const wrapper = await mountApp();
     expect(wrapper.text()).toContain('App Header');
+    expect(wrapper.text()).toContain('App Content');
   });
 
   it('selects and saves a theme override', async () => {
-    const wrapper = mount(App);
+    const wrapper = await mountApp();
     const systemTheme = wrapper.get('input[value="system"]');
     const darkTheme = wrapper.get('input[value="dark"]');
 
@@ -33,7 +48,7 @@ describe('App', () => {
   it('clears the theme override when system is selected', async () => {
     window.localStorage.setItem(THEME_STORAGE_KEY, THEME_OPTIONS.light);
 
-    const wrapper = mount(App);
+    const wrapper = await mountApp();
     const lightTheme = wrapper.get('input[value="light"]');
     const systemTheme = wrapper.get('input[value="system"]');
 

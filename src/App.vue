@@ -8,7 +8,7 @@
       <PrimarySidebar />
     </template>
 
-    <p>App Content</p>
+    <RouterView />
 
     <template #secondary-sidebar>
       <SecondarySidebar />
@@ -26,6 +26,7 @@ import AppHeader from './components/AppHeader.vue';
 import PrimarySidebar from './components/PrimarySidebar.vue';
 import SecondarySidebar from './components/SecondarySidebar.vue';
 import ViewLayout from './components/ViewLayout.vue';
+import { RouterView } from 'vue-router';
 </script>
 
 <style scoped></style>
